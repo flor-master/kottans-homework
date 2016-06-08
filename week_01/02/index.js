@@ -1,43 +1,47 @@
-'use strict';
+'use strict'
 
-const PostHTML = require('posthtml');
+const PostHTML = require('posthtml')
 
 let fs = require('fs');
-let bootstrap = fs.readFileSync('./bootstrap.txt').toString().split('.').map((el)=>{
-    return el.replace('\n', '');
-});
-bootstrap = bootstrap.splice(1, bootstrap.length);
-let bootstrapSet = new Set(bootstrap);
+let bootstrap = fs.readFileSync('./bootstrap.txt')
+                  .toString()
+                  .split('.')
+                  .map( el => el.replace('\n', '') )
+
+bootstrap = bootstrap.splice(1, bootstrap.length)
+let bootstrapSet = new Set(bootstrap)
 
 
-let html = `
+const html = `
     <myComponent class='news col-xs-12 js-all-news js-only-for-IE'>
       <myTitle class='col-lg-6 news__item btn-default js-bla-bla'>Super Title</myTitle>
       <myText class='col-lg-6'>Awesome Text</myText>
-    </myComponent>`;
-console.log(html);
+    </myComponent>`
+console.log(html)
 
 
-const plugin = (tree) => {
-  tree.match({ content: true }, node =>
-  {
+const plugin = tree => {
+  tree.match({ content: true }, node => {
 
-    let classList = node.attrs.class.split(' ');
+    let classList = node.attrs.class.split(' ')
 
-    classList = classList.filter((el) => {
-      return (bootstrapSet.has(el) ?  false : true)
-    });
+    classList = classList.filter( el => !bootstrapSet.has(el) )
 
-    classList = classList.filter((el) => {
+    let classListNoJs = [];
+    classList = classList.filter( (el) => {
       if (el.indexOf('js-') > -1){
-        if (!node.attrs['data-js']) node.attrs['data-js'] = ''
-        node.attrs['data-js'] += el.substr(3, el.length) + ' '
+        classListNoJs.push(el);
         return false
       } else{
         return true
       }
     })
 
+
+
+    if (classListNoJs.length > 0) {
+      node.attrs['data-js'] = classListNoJs.join(' ')
+    }
 
     if (classList.length > 0) {
       node.attrs.class = classList.join(' ')
