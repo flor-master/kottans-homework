@@ -1,0 +1,723 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700);
+
+/***************** VAR **********************/
+:root{
+  --default-color: #A5ABC5;
+  --border-color: #CDD3E3;
+  --title-color: #6E768F;
+  --title-color-footer: #B3B9D7;
+
+  --btn-bg: #F7F7FA;
+  --btn-bg-hover: #DCDCDC;
+
+  --succees-color: #5FCAC6;
+  --danger-color: #E17776;
+  --selected-color: #76A7E1;
+
+  --margin-for-el: 15px;
+}
+
+/**************** RESET **********************/
+body, dl, dd, dt{
+  margin: unset;
+}
+button, address{
+  all: unset;
+}
+a{
+  color: #909BBC;
+  &:hover{
+    text-decoration: none;
+  }
+}
+
+/***************** MIXINS ******************/
+@define-mixin button $color: var(--default-color), $bg: var(--btn-bg) {
+  display: inline-block;
+  padding: 18px 40px;
+  background: $(bg);
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  color: $(color);
+  border: color($(bg) blackness(20%))  solid 1px;
+  cursor: pointer;
+  &:hover{
+    background: color($(bg) blackness(15%));
+  }
+}
+
+@define-mixin button-icon $pic-name, $color: var(--default-color), $bg: var(--btn-bg) {
+    @mixin button;
+
+    &:before{
+      content: url('../i/$(pic-name).svg');
+      padding-right: 10px;
+      vertical-align: middle;
+    }
+}
+@define-mixin button-hover {
+  &:hover{
+    opacity: 0.8;
+  }
+}
+@define-mixin title-icon $pic-name, $color: var(--title-color) {
+  position: relative;
+  color: $(color);
+  &:before{
+    content: url('../i/$(pic-name).svg');
+    position: absolute;
+    left: -40px;
+    top: -5px;
+  }
+}
+
+@define-mixin section {
+  margin-left: 170px;
+  margin-right: 170px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+@define-mixin title {
+  position: relative;
+  margin-bottom: 60px;
+  color: var(--title-color);
+  font-size: 26px;
+  font-weight: 400;
+}
+
+@define-mixin label-normal {
+    display: block;
+    border: var(--border-color) solid 1px;
+    border-radius: 5px;
+    background: var(--btn-bg);
+    cursor: pointer;
+}
+
+@define-mixin label-checked {
+  position: relative;
+  &:before{
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    border: var(--selected-color) solid 5px;
+    border-radius: 5px;
+  }
+  &:after{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 30px;
+    height: 30px;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    background: var(--selected-color) url("../i/checkmark.svg") 50% 50% no-repeat;
+  }
+}
+@define-mixin centered-content{
+  max-width: 1400px;
+  margin: 0 auto;
+}
+/*********/
+
+
+
+html{
+  background: #ECEEF4;
+  font-family: Open Sans, sans-serif;
+  color: var(--default-color);
+}
+body{
+  counter-reset: section;
+}
+button{
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.top-nav{
+  @mixin centered-content;
+
+  display: flex;
+  height: 280px;
+  justify-content: space-between;
+  align-items: center;
+
+  &__back{
+    @mixin button-icon arrow-left, var(--def-color), var(--btn-bg);
+  }
+  &__sign-in{
+    @mixin button-icon user, var(--def-color), var(--btn-bg);
+  }
+}
+.logo{
+   width: 130px;
+   height: 130px;
+}
+
+
+
+.content{
+  @mixin centered-content;
+  border: var(--border-color) solid 2px;
+  border-radius: 5px;
+  background: #fff;
+}
+
+
+.header-wr{
+  display: flex;
+  border-bottom: var(--border-color) solid 2px;
+}
+
+.order-info{
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 30px 40px 30px 90px;
+
+  &__list-wr{
+    width: 70%;
+  }
+  &__btns-wr{
+    width: 30%;
+  }
+  &__title{
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    @mixin title-icon price-tag, var(--title-color);
+  }
+  &__list{
+    columns: 4;
+    &__title{
+      margin-bottom: 10px;
+      color: var(--title-color);
+      text-transform: uppercase;
+      font-weight: 600;
+      break-before: avoid;
+    }
+    &__description{
+      font-size: 14px;
+    }
+  }
+}
+
+.plase-order{
+  display: block;
+  margin-bottom: 15px;
+  width: 100%;
+  text-transform: uppercase;
+  @mixin button #fff, var(--succees-color);
+}
+
+.print-quote{
+  display: block;
+  width: 100%;
+  text-transform: uppercase;
+  @mixin button;
+}
+
+
+.contact-info{
+  width: 30%;
+  padding: 30px 30px 30px 100px;
+  border-left: var(--border-color) solid 2px;
+
+  &__title{
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    @mixin title-icon help;
+  }
+
+  &__link{
+    color: var(--title-color);
+    &:hover{
+      text-decoration: underline;
+    }
+
+    &:nth-of-type(1){
+      margin-right: 10px;
+    }
+  }
+}
+
+
+.type{
+  @mixin section;
+  &__tabs-wr{
+    display:flex;
+    justify-content: space-between;
+  }
+  &__title{
+    @mixin title;
+    text-align: center;
+    text-transform: uppercase;
+    &__underline{
+      position: relative;
+      &::before{
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: -10px;
+        right: -10px;
+        height: 1px;
+        background: var(--border-color);
+      }
+    }
+  }
+
+  &__tab{
+    display: block;
+    width: 30%;
+
+
+    &__label{
+      padding: 30px;
+      text-align: center;
+      @mixin label-normal;
+    }
+    &__ico{
+      width: 40%;
+    }
+
+    &__title{
+      margin: 15px 0 0 0;
+      font-size: 21px;
+      font-weight: normal;
+      text-align: center;
+    }
+
+
+    &__input{
+      display: none;
+      &:checked + label{
+        @mixin label-checked;
+      }
+    }
+  }
+}
+
+
+.section__title{
+  @mixin title;
+  &:before{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    left: -75px;
+    top: -6px;
+    border: solid 1px;
+    border-radius: 50%;
+    text-align: center;
+    counter-increment: section;
+    content: counter(section) !important;
+  }
+}
+
+.sect-1{
+  @mixin section;
+  display: none;
+  &:target{
+    display: block;
+  }
+
+  & .section__title{
+    & small{
+      font-size: 16px;
+      color: var(--default-color);
+      text-transform: none;
+    }
+  }
+}
+
+.upload{
+  @mixin button-icon upload;
+}
+.upload-input {
+  display: none;
+}
+
+.files-to-translate{
+  margin-top: 50px;
+  width: 100%;
+  border: var(--border-color) solid 1px;
+  border-radius: 5px;
+  padding: 40px 60px;
+  & thead{
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--title-color);
+    & td{
+      padding-bottom: 15px;
+    }
+  }
+  & tbody{
+    & td{
+      padding-bottom: 5px;
+    }
+  }
+  & .filename{
+    &:before{
+      content: url('../i/file-text.svg');
+      padding-right: 20px;
+
+    }
+  }
+  & .remove{
+    text-align: center;
+    &__ico{
+      cursor: pointer;
+      transition: opacity 100ms ease;
+      @mixin button-hover;
+    }
+  }
+}
+
+.cool-select{
+  display: inline-block;
+  position: relative;
+  width: 260px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--btn-bg) url("../i/down.svg") no-repeat 95% 50%;
+  &:before{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 1px;
+    top: 0;
+    right: 20%;
+    bottom: 0;
+    background: var(--border-color);
+    cursor: pointer;
+
+  }
+  &:hover{
+    background-color: var(--btn-bg-hover) !important;
+  }
+  & select{
+    padding: 5px 8px;
+    margin-left: 20px;
+    width: 280px;
+    height: 60px;
+    font-size: 16px;
+    color: var(--default-color);
+    background: var(--btn-bg);
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+  }
+}
+
+.translate{
+  @mixin section;
+  --select-height: 60px;
+  &__label{
+    display: inline-block;
+    width: 50px;
+    margin-right: var(--margin-for-el);
+    text-align: right;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: var(--select-height);
+    vertical-align: top;
+  }
+  & .cool-select{
+    margin-right: var(--margin-for-el);
+  }
+  &-from{
+    margin-bottom: 30px;
+  }
+  &__remove{
+    margin-right: var(--margin-for-el);
+    display: inline-block;
+    vertical-align: top;
+    line-height: var(--select-height);
+    cursor: pointer;
+    @mixin button-hover;
+  }
+  &__add{
+    vertical-align: top;
+    @mixin button-icon plus;
+  }
+}
+
+.two-col-wr{
+  display: flex;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.tone{
+  @mixin section;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 40px;
+  width: 50%;
+
+  &__label{
+    max-width: 200px;
+    @mixin label-normal;
+    text-align: left;
+    padding: 30px 45px;
+    margin-bottom: 15px;
+    & img{
+      vertical-align: middle;
+      padding-right: 10px;
+    }
+  }
+  & input[name=type]:checked + label{
+    @mixin label-checked;
+  }
+}
+.urgent{
+  @mixin section;
+  margin-left: 40px;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 50%;
+
+  &__range{
+    position: relative;
+    -webkit-appearance: none;
+    width: 100%;
+    background: #EFF0F5;
+    height: 10px;
+    outline: none;
+    border-radius: 5px;
+    &:before{
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      height: 10px;
+      background: #CECFD3;
+      border-radius: 5px;
+    }
+    &:after{
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      height: 10px;
+      background: #CECFD3;
+      border-radius: 5px;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      position: relative;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #EDBE76;
+      z-index: 10;
+    }
+    &::focus{
+      outline: none;
+    }
+  }
+  &__description{
+    display: flex;
+    width: 120%;
+    margin-left: -10%;
+    margin-top: 15px;
+    justify-content: space-between;
+
+    &__item{
+      text-transform: uppercase;
+      &.-active{
+        color: #EDBE76;
+      }
+    }
+  }
+
+  &__info{
+    margin-top: 50px;
+    padding: 30px 50px 30px 80px;
+    border: var(--border-color) solid 1px;
+    border-radius: 5px;
+    &__title{
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 600;
+      @mixin title-icon baffled, var(--title-color);
+    }
+    & b{
+      color: #EDBE76;
+      text-transform: uppercase;
+    }
+  }
+}
+
+
+.pay{
+  @mixin section;
+  &__title{
+    @mixin title;
+  }
+
+  &__input-wr{
+    margin: 30px 0;
+    &:nth-of-type(1){
+      margin-top: 60px;
+    }
+    &:nth-of-type(3){
+      display: flex;
+      margin-top: 80px;
+      margin-bottom: 80px;
+    }
+  }
+  &__input-inline{
+    display: inline-block;
+    margin-right: var(--margin-for-el)
+  }
+
+  &__label{
+    display: block;
+    font-weight: 600;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  &__input{
+    width: 300px;
+    padding: 15px;
+    border: var(--border-color) solid 1px;
+    border-radius: 5px;
+    outline: none;
+    color: #717794;
+    font-size: 16px;
+
+    &:invalid{
+      background: url("../i/cross.svg") 95% 50% no-repeat;
+    }
+    &:valid{
+      background: url("../i/checkmark-color.svg") 95% 50% no-repeat;
+    }
+  }
+
+  &__type-label{
+    padding: 30px 90px;
+    margin-right: var(--margin-for-el);
+    @mixin label-normal;
+  }
+
+  & input[name=payment]:checked + label{
+    @mixin label-checked;
+  }
+
+}
+
+.submit{
+  @mixin section;
+  text-align: right;
+  & > button {
+    margin-left: 20px;
+  }
+}
+.print-order{
+  @mixin button;
+}
+.send-order{
+  @mixin button #fff, var(--succees-color);
+
+}
+
+.send-order-form{
+  &:valid{
+    & .send-order{
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  &:invalid{
+    & .send-order{
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+}
+
+.centered-content{
+  @mixin centered-content;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+@define-mixin footer-item{
+  width: 28%;
+  display: block;
+  padding: 0 50px;
+
+  &__title{
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    color: #B3B9D7;
+  }
+}
+
+.footer{
+  display: flex;
+  margin-top: 100px;
+  background: #444A62;
+  color: #B3B9D7;
+  font-size: 14px;
+  line-height: 22px;
+  & a{
+    color: #B3B9D7;
+  }
+  &__about{
+    @mixin footer-item;
+    &__title{
+      @mixin title-icon heart, var(--title-color-footer);
+    }
+  }
+  &__addr{
+    @mixin footer-item;
+    &__title{
+      @mixin title-icon road, var(--title-color-footer);
+    }
+  }
+  &__contact{
+    @mixin footer-item;
+    &__title{
+      @mixin title-icon share, var(--title-color-footer);
+    }
+  }
+  &__logo{
+    @mixin footer-item;
+    width: 16%;
+    text-align: right;
+    & img{
+      max-width: 150px;
+      width: 100%;
+      opacity: 0.2;
+    }
+  }
+}

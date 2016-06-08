@@ -1,0 +1,26 @@
+{
+  "name": "homework-03",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "http-server -p 9092 ./dist/",
+    "livereload": "live-reload --port 35729 ./dist/",
+    "css": "postcss --use postcss-mixins --use postcss-cssnext ./src/css/*.css -d dist/css/",
+    "dev": "npm run livereload & npm run css & npm run watch",
+    "watch": "watch-run -p ./src/css/* npm run css"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "http-server": "^0.9.0",
+    "live-reload": "^1.1.0",
+    "postcss": "^5.0.21",
+    "postcss-cli": "^2.5.2",
+    "postcss-cssnext": "^2.5.2",
+    "postcss-mixins": "^4.0.2",
+    "watch-run": "^1.2.4"
+  }
+}
