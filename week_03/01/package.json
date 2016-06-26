@@ -1,0 +1,17 @@
+{
+  "name": "homework-03",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "http-server -p 9092 ./",
+    "livereload": "live-reload --port 35729 ./"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "live-reload": "^1.1.0"
+  }
+}
